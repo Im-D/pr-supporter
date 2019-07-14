@@ -28,7 +28,8 @@ describe('My Probot app', () => {
 
     // Test that a comment is posted
     nock('https://api.github.com')
-      .post('/repos/hiimbex/testing-things/issues/1/comments', (body) => {
+      .post('/repos/Im-D/probot-practice/issues/100/comments', (body) => {
+        console.log(body, issueCreatedBody)
         expect(body).toMatchObject(issueCreatedBody)
         return true
       })
