@@ -19,7 +19,7 @@ module.exports = app => {
     //     urls += `\n[View rendered ${result.filename}](${context.payload.pull_request.head.repo.html_url}/blob/${context.payload.pull_request.head.ref}/${result.filename})`
     //   })
     // await context.github.pullRequests.update(context.issue({ body: `${context.payload.pull_request.body}\n\n-----${urls}` }))
-    await context.github.pullRequests.update(context.issue({ body: `comments test` }))
+    // await context.github.pullRequests.update(context.issue({ body: `comments test` }))
     // }
   })
 }
