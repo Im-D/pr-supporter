@@ -11,8 +11,11 @@ module.exports = app => {
     const filesChanged = await context.github.pullRequests.listFiles(context.issue())
     console.log('========================result======================', filesChanged.data)
 
-    const urlList = filesChanged.data.reduce((acc, cur) => {
-      acc += `${cur['filename']} : ${cur['blob_url']}\n`
+    const urlList = await filesChanged.data.reduce((acc, cur) => {
+      if (cur['filename'].includes('.js')) {
+        return acc
+      }
+      acc += `[${cur['filename']}](${cur['blob_url']})\n`
       return acc
     }, '')
     // if (results && results.length > 0) {
