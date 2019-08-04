@@ -3,17 +3,29 @@
  * @param {import('probot').Application} app
  */
 module.exports = app => {
-  // Your code here
-  app.log('Yay, the app was loaded!')
+  // app.on('pull_request.opened', async context => {
+  //   console.log('test', context)
+  //   return context.github.issues.createComment('')
+  // })
+  app.on('pull_request.opened', async context => {
+    const filesChanged = await context.github.pullRequests.listFiles(context.issue())
+    console.log('========================result======================', filesChanged.data)
 
-  app.on('issues.opened', async context => {
-    const issueComment = context.issue({ body: 'Thanks for opening this issue!' })
-    return context.github.issues.createComment(issueComment)
+    const urlList = await filesChanged.data.reduce((acc, cur) => {
+      if (cur['filename'].includes('.js')) {
+        return acc
+      }
+      acc += `[${cur['filename']}](${cur['blob_url']})\n`
+      return acc
+    }, '')
+    // if (results && results.length > 0) {
+    //   // make URLs
+    //   let urls = ''
+    //   await results.forEach(async (result) => {
+    //     urls += `\n[View rendered ${result.filename}](${context.payload.pull_request.head.repo.html_url}/blob/${context.payload.pull_request.head.ref}/${result.filename})`
+    //   })
+    // await context.github.pullRequests.update(context.issue({ body: `${context.payload.pull_request.body}\n\n-----${urls}` }))
+    await context.github.pullRequests.update(context.issue({ body: urlList }))
+    // }
   })
-
-  // For more information on building apps:
-  // https://probot.github.io/docs/
-
-  // To get your app running against GitHub, see:
-  // https://probot.github.io/docs/development/
 }
