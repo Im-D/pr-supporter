@@ -30,6 +30,15 @@ describe('Start Pull Request Open', () => {
         }
       ])
 
+    nock('https://api.github.com')
+      .patch('/repos/Im-D/probot-practice/pulls/32', body => {
+        if (body.body === '') {
+          return true
+        }
+        return false
+      })
+      .reply(200)
+
     await probot.receive({ name: 'pull_request', payload: payloadFail })
   })
 })
