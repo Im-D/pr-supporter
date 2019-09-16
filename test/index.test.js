@@ -7,12 +7,12 @@ const payload = require('./fixtures/pull_request.opened')
 // const issueCreatedBody = { body: 'Thanks for opening this issue!' }
 const mockFileList = [
   {
-    'filename': 'README.md',
-    'blob_url': 'https://github.com/Im-D/probot-practice/blob/b790602dea6a66f47062550a5330bf5b6f749d0a/README.md'
+    filename: 'README.md',
+    blob_url: 'https://github.com/Im-D/probot-practice/blob/b790602dea6a66f47062550a5330bf5b6f749d0a/README.md'
   },
   {
-    'filename': 'test/prtest.js',
-    'blob_url': 'https://github.com/Im-D/probot-practice/blob/b790602dea6a66f47062550a5330bf5b6f749d0a/test/prtest.js'
+    filename: 'test/prtest.js',
+    blob_url: 'https://github.com/Im-D/probot-practice/blob/b790602dea6a66f47062550a5330bf5b6f749d0a/test/prtest.js'
   }
 ]
 
