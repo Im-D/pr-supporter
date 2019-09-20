@@ -12,7 +12,7 @@ module.exports = app => {
     console.log('========================result======================', filesChanged.data)
 
     const urlList = await filesChanged.data.reduce((acc, cur) => {
-      if (cur['filename'].includes('.md')) {
+      if (cur['filename'].match(/\.(md|markdown)$/)) {
         acc += `[${cur['filename']}](${cur['blob_url']})\n`
       }
       return acc
