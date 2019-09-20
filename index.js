@@ -2,6 +2,12 @@
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
  */
+const path = require('path')
+
+function fileLink ({ repository, pullRequest }, file) {
+  return repository.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
+}
+
 module.exports = app => {
   // app.on('pull_request.opened', async context => {
   //   console.log('test', context)
@@ -15,17 +21,12 @@ module.exports = app => {
       if (cur['filename'].includes('.js')) {
         return acc
       }
-      acc += `[${cur['filename']}](${cur['blob_url']})\n`
+      const link = fileLink(context.payload, cur)
+      console.log(link)
+      acc += `[${cur['filename']}](${link})\n`
       return acc
     }, '')
-    // if (results && results.length > 0) {
-    //   // make URLs
-    //   let urls = ''
-    //   await results.forEach(async (result) => {
-    //     urls += `\n[View rendered ${result.filename}](${context.payload.pull_request.head.repo.html_url}/blob/${context.payload.pull_request.head.ref}/${result.filename})`
-    //   })
-    // await context.github.pullRequests.update(context.issue({ body: `${context.payload.pull_request.body}\n\n-----${urls}` }))
+
     await context.github.pullRequests.update(context.issue({ body: urlList }))
-    // }
   })
 }
