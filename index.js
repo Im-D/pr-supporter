@@ -12,10 +12,9 @@ module.exports = app => {
     console.log('========================result======================', filesChanged.data)
 
     const urlList = await filesChanged.data.reduce((acc, cur) => {
-      if (cur['filename'].includes('.js')) {
-        return acc
+      if (cur['filename'].includes('.md')) {
+        acc += `[${cur['filename']}](${cur['blob_url']})\n`
       }
-      acc += `[${cur['filename']}](${cur['blob_url']})\n`
       return acc
     }, '')
     // if (results && results.length > 0) {
