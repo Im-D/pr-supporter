@@ -14,7 +14,9 @@ describe('Start Pull Request Open', () => {
     probot = new Probot({})
 
     const app = probot.load(myProbotApp)
-    app.app = () => 'test'
+    app.app = {
+      getInstallationAccessToken: (option) => Promise.resolve('test')
+    }
   })
 
   test('when no markdown files are editted', async () => {
