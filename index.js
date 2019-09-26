@@ -4,8 +4,8 @@
  */
 const path = require('path')
 
-function fileLink ({ repository, pullRequest }, file) {
-  return repository.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
+function fileLink (pullRequest, file) {
+  return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
 }
 
 module.exports = app => {
@@ -18,12 +18,11 @@ module.exports = app => {
     console.log('========================result======================', filesChanged.data)
 
     const urlList = await filesChanged.data.reduce((acc, cur) => {
-      if (cur['filename'].includes('.js')) {
+      if (cur.filename.includes('.js')) {
         return acc
       }
-      const link = fileLink(context.payload, cur)
-      console.log(link)
-      acc += `[${cur['filename']}](${link})\n`
+      const link = fileLink(context.payload.pull_request, cur)
+      acc += `[${cur.filename}](${link})\n`
       return acc
     }, '')
 
