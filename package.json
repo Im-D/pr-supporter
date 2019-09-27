@@ -3,62 +3,24 @@
   "version": "1.0.0",
   "description": "pr-supporter",
   "author": "Im-D <jp302119@gmail.com> (https://github.com/Im-D)",
-  "license": "ISC",
+  "license": "MIT",
   "repository": "https://github.com//pr-supporter.git",
   "homepage": "https://github.com//pr-supporter",
   "bugs": "https://github.com//pr-supporter/issues",
-  "keywords": [
-    "probot",
-    "github",
-    "probot-app"
-  ],
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon",
-    "start": "probot run ./index.js",
-    "lint": "standard --fix",
-    "test": "jest",
-    "test:watch": "jest --watch --notify --notifyMode=change --coverage",
-    "precommit": "lint-staged && npm run test"
+    "lint": "eslint index.js",
+    "test": "eslint index.js && jest"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "npm run lint",
-      "git add"
-    ]
-  },
+  "keywords": [
+    "Actions",
+    "JavaScript"
+  ],
   "dependencies": {
-    "probot": "^9.5.0"
+    "@actions/core": "^1.1.1"
   },
   "devDependencies": {
-    "husky": "^3.0.5",
-    "jest": "^24.9.0",
-    "lint-staged": "^9.3.0",
-    "nock": "^11.3.5",
-    "nodemon": "^1.19.2",
-    "smee-client": "^1.0.2",
-    "standard": "^14.3.1"
-  },
-  "engines": {
-    "node": ">= 8.3.0"
-  },
-  "standard": {
-    "env": [
-      "jest"
-    ]
-  },
-  "nodemonConfig": {
-    "exec": "npm start",
-    "watch": [
-      ".env",
-      "."
-    ]
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "eslint": "^6.3.0",
+    "jest": "^24.9.0"
   }
 }
