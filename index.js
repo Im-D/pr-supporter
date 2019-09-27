@@ -9,22 +9,23 @@ const github = require('@actions/github');
 // https://octokit.github.io/rest.js/
 async function run() {
   try {
+    const myToken = core.getInput('myToken');
+    const octokit = new github.GitHub(myToken);
+
     const payload = JSON.stringify(github.context, undefined, 2)
-    console.log(payload)
     const { owner, repo, number } = payload
-    const filesChanged = github.pulls.listFiles({ owner, repo, pull_number : number })
+    const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : number })
 
     const urlList = await filesChanged.data.reduce((acc, cur) => {
       if (cur.filename.match(/\.(md|markdown)$/)) {
-        // const link = fileLink(context.payload.pull_request, cur)
-
-        // acc += `[${cur.filename}](${link})\n`
+        const link = fileLink(payload.pull_request, cur)
+        acc += `[${cur.filename}](${link})\n`
       }
       return acc
     }, '')
 
     console.log('urlList', urlList);
-    github.pulls.update({ owner, repo, pull_number:number, body: urlList })
+    octokit.pulls.update({ owner, repo, pull_number:number, body: urlList })
   }
   catch (error) {
     core.setFailed(error.message);
