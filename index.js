@@ -13,7 +13,7 @@ async function run() {
     const octokit = new github.GitHub(myToken);
 
     const payload = JSON.stringify(github.context.payload, undefined, 2)
-    const { owner, repo, number } = github.context.issue()
+    const { owner, repo, number } = github.context.issue
 
     console.log("@@@", owner, repo, number )
     console.log("???", payload)
