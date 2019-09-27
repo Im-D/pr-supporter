@@ -1,10 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const path = require('path')
+// const path = require('path')
 
-function fileLink(pullRequest, file) {
-  return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
-}
+// function fileLink(pullRequest, file) {
+//   return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
+// }
 
 // https://octokit.github.io/rest.js/
 async function run() {

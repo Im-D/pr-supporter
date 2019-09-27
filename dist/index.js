@@ -48,11 +48,11 @@ module.exports =
 
 const core = __webpack_require__(310);
 const github = __webpack_require__(304);
-const path = __webpack_require__(622)
+// const path = require('path')
 
-function fileLink(pullRequest, file) {
-  return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
-}
+// function fileLink(pullRequest, file) {
+//   return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
+// }
 
 // https://octokit.github.io/rest.js/
 async function run() {
