@@ -1,10 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-// const path = require('path')
+const path = require('path')
 
-// function fileLink(pullRequest, file) {
-//   return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
-// }
+function fileLink(pullRequest, file) {
+  return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
+}
 
 // https://octokit.github.io/rest.js/
 async function run() {
@@ -15,7 +15,10 @@ async function run() {
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     const { owner, repo, number } = github.context.issue
 
-    if(!number) return 
+    if(!number) {
+      console.warn("Dont have number")
+      return 
+    }
     const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : number })
     const urlList = await filesChanged.data.reduce((acc, cur) => {
       if (cur.filename.match(/\.(md|markdown)$/)) {
