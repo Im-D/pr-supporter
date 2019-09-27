@@ -20,6 +20,9 @@ async function run() {
       return 
     }
     const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : number })
+
+    console.log('fileList', filesChanged)
+    
     const urlList = await filesChanged.data.reduce((acc, cur) => {
       if (cur.filename.match(/\.(md|markdown)$/)) {
         const link = fileLink(payload.pull_request, cur)
