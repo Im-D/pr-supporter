@@ -1,10 +1,7 @@
 const nock = require('nock')
-// Requiring our app implementation
 const myProbotApp = require('..')
 const { Probot } = require('probot')
-// Requiring our fixtures
 const payload = require('./fixtures/pull_request.opened')
-// const issueCreatedBody = { body: 'Thanks for opening this issue!' }
 const mockFileList = [
   {
     filename: 'README.md',
@@ -18,7 +15,6 @@ const mockFileList = [
 
 const mockResult = '[README.md](https://github.com/Im-D/probot-practice/blob/b790602dea6a66f47062550a5330bf5b6f749d0a/README.md)\n'
 
-// 실제 주소와 연결을 하지 않고 테스트 진행
 nock.disableNetConnect()
 
 describe('Start Pull Request Open', () => {
@@ -48,13 +44,6 @@ describe('Start Pull Request Open', () => {
       })
       .reply(200)
 
-    // Receive a webhook event
     await probot.receive({ name: 'pull_request', payload })
   })
 })
-
-// For more information about testing with Jest see:
-// https://facebook.github.io/jest/
-
-// For more information about testing with Nock see:
-// https://github.com/nock/nock
