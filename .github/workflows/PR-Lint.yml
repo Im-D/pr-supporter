@@ -1,0 +1,14 @@
+name: Linting
+
+on:
+  pull_request:
+    branches:
+    - master
+    - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Node Code Formatter
+      uses: MarvinJWendt/run-node-formatter@1.2.4
