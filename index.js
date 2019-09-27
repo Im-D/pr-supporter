@@ -19,10 +19,9 @@ async function run() {
       console.warn("Dont have number")
       return 
     }
-    const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : number })
-
-    filesChanged.then((fileList) => {
-      console.log('fileList', fileList)
+    
+    octokit.pulls.listFiles({ owner, repo, pull_number : number }).then((fileList) => {
+      console.log('fileList====', fileList)
       const urlList = fileList.data.reduce((acc, cur) => {
         if (cur.filename.match(/\.(md|markdown)$/)) {
           const link = fileLink(payload.pull_request, cur)
