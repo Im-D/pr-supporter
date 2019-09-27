@@ -13,13 +13,10 @@ async function run() {
     const octokit = new github.GitHub(myToken);
 
     const payload = JSON.stringify(github.context.payload, undefined, 2)
-    const { owner, repo, pull_number } = github.context.issue
+    const { owner, repo, number } = github.context.issue
 
-    console.log("@@@", github.context.issue )
-    console.log("???", payload)
-
-    const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : pull_number })
-
+    if(!number) return 
+    const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : number })
     const urlList = await filesChanged.data.reduce((acc, cur) => {
       if (cur.filename.match(/\.(md|markdown)$/)) {
         const link = fileLink(payload.pull_request, cur)
