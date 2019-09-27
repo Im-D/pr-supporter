@@ -11,7 +11,6 @@ async function run() {
   try {
     const myToken = core.getInput('myToken');
     const octokit = new github.GitHub(myToken);
-
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     const { owner, repo, number } = github.context.issue
 
@@ -20,22 +19,21 @@ async function run() {
       return 
     }
     
-    octokit.pulls.listFiles({ owner, repo, pull_number : number }).then((fileList) => {
-      console.log('fileList====', fileList)
-      const urlList = fileList.data.reduce((acc, cur) => {
-        if (cur.filename.match(/\.(md|markdown)$/)) {
-          const link = fileLink(payload.pull_request, cur)
-          acc += `[${cur.filename}](${link})\n`
-        }
-        return acc
-      }, '')
-
-      octokit.pulls.update({ owner, repo, pull_number:number, body: urlList })
-    })
+    octokit.pulls.listFiles({ owner, repo, pull_number : number })
+      .then((fileList) => 
+        fileList.data.reduce((acc, cur) => {
+          if (cur.filename.match(/\.(md|markdown)$/)) {
+            const link = fileLink(payload.pull_request, cur)
+            acc += `[${cur.filename}](${link})\n`
+          }
+          return acc
+        }, '')
+      ).then((urlList) => {
+        octokit.pulls.update({ owner, repo, pull_number:number, body: urlList })
+      })
   }
   catch (error) {
     core.setFailed(error.message);
   }
-}
 
 run()
