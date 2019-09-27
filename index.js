@@ -12,8 +12,11 @@ async function run() {
     const myToken = core.getInput('myToken');
     const octokit = new github.GitHub(myToken);
 
-    const payload = JSON.stringify(github.context, undefined, 2)
+    const payload = JSON.stringify(github.context.payload, undefined, 2)
     const { owner, repo, number } = payload
+
+    console.log("???", owner, repo, number)
+
     const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : number })
 
     const urlList = await filesChanged.data.reduce((acc, cur) => {
