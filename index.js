@@ -1,13 +1,8 @@
-/**
- * This is the main entrypoint to your Probot app
- * @param {import('probot').Application} app
- */
 const path = require('path')
 
 function fileLink (pullRequest, file) {
   return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
 }
-
 module.exports = app => {
   app.on('pull_request.opened', async context => {
     const filesChanged = await context.github.pullRequests.listFiles(context.issue())
