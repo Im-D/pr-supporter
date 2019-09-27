@@ -1,0 +1,15 @@
+name: Jest Test
+
+on:
+  pull_request:
+    branches:
+    - dev
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Run Jest
+      uses: stefanoeb/jest-action@1.0.0
