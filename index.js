@@ -21,18 +21,18 @@ async function run() {
     }
     const filesChanged = octokit.pulls.listFiles({ owner, repo, pull_number : number })
 
-    console.log('fileList', filesChanged)
-    
-    const urlList = await filesChanged.data.reduce((acc, cur) => {
-      if (cur.filename.match(/\.(md|markdown)$/)) {
-        const link = fileLink(payload.pull_request, cur)
-        acc += `[${cur.filename}](${link})\n`
-      }
-      return acc
-    }, '')
+    filesChanged.then((fileList) => {
+      console.log('fileList', fileList)
+      const urlList = fileList.data.reduce((acc, cur) => {
+        if (cur.filename.match(/\.(md|markdown)$/)) {
+          const link = fileLink(payload.pull_request, cur)
+          acc += `[${cur.filename}](${link})\n`
+        }
+        return acc
+      }, '')
 
-    console.log('urlList', urlList);
-    octokit.pulls.update({ owner, repo, pull_number:number, body: urlList })
+      octokit.pulls.update({ owner, repo, pull_number:number, body: urlList })
+    })
   }
   catch (error) {
     core.setFailed(error.message);
