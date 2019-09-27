@@ -9,13 +9,8 @@ function fileLink (pullRequest, file) {
 }
 
 module.exports = app => {
-  // app.on('pull_request.opened', async context => {
-  //   console.log('test', context)
-  //   return context.github.issues.createComment('')
-  // })
   app.on('pull_request.opened', async context => {
     const filesChanged = await context.github.pullRequests.listFiles(context.issue())
-    console.log('========================result======================', filesChanged.data)
 
     const urlList = await filesChanged.data.reduce((acc, cur) => {
       if (cur.filename.match(/\.(md|markdown)$/)) {

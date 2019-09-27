@@ -4,7 +4,6 @@ const { Probot } = require('probot')
 
 const payloadFail = require('./fixtures/payloadFail.json')
 
-// 실제 주소와 연결을 하지 않고 테스트 진행
 nock.disableNetConnect()
 
 describe('Start Pull Request Open', () => {
