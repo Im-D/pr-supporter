@@ -1,34 +1,23 @@
-/**
- * This is the main entrypoint to your Probot app
- * @param {import('probot').Application} app
- */
+const path = require('path')
+
+function fileLink (pullRequest, file) {
+  return pullRequest.head.repo.html_url + path.join('/blob', pullRequest.head.ref, file.filename)
+}
 module.exports = app => {
-  // app.on('pull_request.opened', async context => {
-  //   console.log('test', context)
-  //   return context.github.issues.createComment('')
-  // })
   app.on('pull_request.opened', async context => {
     try {
       const { owner, repo, number } = context.issue()
       const filesChanged = await context.github.pullRequests.listFiles({ owner, repo, pull_number: number })
-      console.log('========================result======================', filesChanged.data)
 
       const urlList = await filesChanged.data.reduce((acc, cur) => {
-        if (cur.filename.includes('.js')) {
-          return acc
+        if (cur.filename.match(/\.(md|markdown)$/)) {
+          const link = fileLink(context.payload.pull_request, cur)
+          acc += `[${cur.filename}](${link})\n`
         }
-        acc += `[${cur.filename}](${cur.blob_url})\n`
         return acc
       }, '')
-      // if (results && results.length > 0) {
-      //   // make URLs
-      //   let urls = ''
-      //   await results.forEach(async (result) => {
-      //     urls += `\n[View rendered ${result.filename}](${context.payload.pull_request.head.repo.html_url}/blob/${context.payload.pull_request.head.ref}/${result.filename})`
-      //   })
-      // await context.github.pullRequests.update(context.issue({ body: `${context.payload.pull_request.body}\n\n-----${urls}` }))
+
       await context.github.pullRequests.update(context.issue({ body: urlList }))
-    // }
     } catch (error) {
 
     }
