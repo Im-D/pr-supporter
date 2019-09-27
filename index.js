@@ -9,7 +9,7 @@ const github = require('@actions/github');
 // https://octokit.github.io/rest.js/
 async function run() {
   try {
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    const payload = JSON.stringify(github.context, undefined, 2)
     console.log(payload)
     const { owner, repo, number } = payload
     const filesChanged = github.pulls.listFiles({ owner, repo, pull_number : number })
