@@ -18,11 +18,10 @@ module.exports = app => {
     console.log('========================result======================', filesChanged.data)
 
     const urlList = await filesChanged.data.reduce((acc, cur) => {
-      if (cur.filename.includes('.js')) {
-        return acc
+      if (cur.filename.match(/\.(md|markdown)$/)) {
+        const link = fileLink(context.payload.pull_request, cur)
+        acc += `[${cur.filename}](${link})\n`
       }
-      const link = fileLink(context.payload.pull_request, cur)
-      acc += `[${cur.filename}](${link})\n`
       return acc
     }, '')
 
