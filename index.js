@@ -25,7 +25,7 @@ async function run() {
         fileList.data.reduce((acc, cur) => {
           if (cur.filename.match(/\.(md|markdown)$/)) {
             // const link = fileLink(payload.pull_request, cur)
-            acc += `[${cur.filename}](https://github.com/)\n`
+            acc += `[${cur.filename}](${cur.blob_url})\n`
           }
           return acc
         }, '')
