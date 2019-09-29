@@ -11,7 +11,7 @@ async function run() {
   try {
     const myToken = core.getInput('myToken');
     const octokit = new github.GitHub(myToken);
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    const payload  = github.context.payload
     const { owner, repo, number } = github.context.issue
 
     if(!number) {
@@ -23,8 +23,8 @@ async function run() {
       .then((fileList) => 
         fileList.data.reduce((acc, cur) => {
           if (cur.filename.match(/\.(md|markdown)$/)) {
-            // const link = fileLink(payload.pull_request, cur)
-            acc += `[${cur.filename}](https://github.com/)\n`
+            const link = fileLink(payload.pull_request, cur)
+            acc += `[${cur.filename}](${link})\n`
           }
           return acc
         }, '')
