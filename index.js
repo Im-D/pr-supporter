@@ -14,15 +14,14 @@ async function run() {
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     const { owner, repo, number } = github.context.issue
 
-    console.log("context!!!!!!!!!!!!!!!!", github.context.payload.head)
-
     if(!number) {
       console.warn("Dont have number")
       return 
     }
     
     octokit.pulls.listFiles({ owner, repo, pull_number : number })
-      .then((fileList) => 
+      .then((fileList) => {
+        console.log('filelist!!!', fileList)
         fileList.data.reduce((acc, cur) => {
           if (cur.filename.match(/\.(md|markdown)$/)) {
             // const link = fileLink(payload.pull_request, cur)
@@ -30,7 +29,7 @@ async function run() {
           }
           return acc
         }, '')
-      ).then((urlList) => {
+      }).then((urlList) => {
         octokit.pulls.update({ owner, repo, pull_number:number, body: urlList })
       })
   }
