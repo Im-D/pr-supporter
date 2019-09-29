@@ -14,7 +14,7 @@ async function run() {
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     const { owner, repo, number } = github.context.issue
 
-    console.log("context!!!!!!!!!!!!!!!!", github.context)
+    console.log("context!!!!!!!!!!!!!!!!", github.context.payload.head)
 
     if(!number) {
       console.warn("Dont have number")
