@@ -21,7 +21,6 @@ async function run() {
     
     octokit.pulls.listFiles({ owner, repo, pull_number : number })
       .then((fileList) => {
-        console.log('filelist!!!', fileList)
         fileList.data.reduce((acc, cur) => {
           if (cur.filename.match(/\.(md|markdown)$/)) {
             // const link = fileLink(payload.pull_request, cur)
@@ -30,6 +29,7 @@ async function run() {
           return acc
         }, '')
       }).then((urlList) => {
+        console.log('urlList', urlList)
         octokit.pulls.update({ owner, repo, pull_number:number, body: urlList })
       })
   }
